@@ -10,7 +10,7 @@ ui = fluidPage(theme = shinytheme("slate"),
                  tabPanel("Calendar",
                           sidebarPanel(
                             tags$h3("Pick a date:"),
-                            dateInput("wybrana_data", 
+                            dateInput("picked_date", 
                                       label = NULL,
                                       format = "d MM yyyy",
                                       weekstart = 1,
@@ -24,6 +24,7 @@ ui = fluidPage(theme = shinytheme("slate"),
                             h3("Happy name day to:"),
                             hr(),
                             h3("Holidays"),
+                            textOutput("holidays_out"),
                             hr(),
                             h3("Zodiac signs"),
                             tags$div(
@@ -39,6 +40,17 @@ ui = fluidPage(theme = shinytheme("slate"),
 )
 
 server = function(input, output){
+  
+  holidays_data = read.csv("holidays.csv", header = TRUE, sep = ";")
+  
+  holidays = function(picked_date){
+    holiday_date = format(input$picked_date, "%m-%d")
+    holiday = holidays_data$holiday[holidays_data$day == holiday_date]
+  }
+  
+  output$holidays_out = renderText({
+    paste(as.character(holidays()))
+  })
 }
 
 shinyApp(ui = ui, server = server)
