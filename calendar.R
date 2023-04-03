@@ -22,6 +22,7 @@ ui = fluidPage(theme = shinytheme("slate"),
                             h3("Weather"),
                             hr(),
                             h3("Happy name day to:"),
+                            textOutput("namedays_out"),
                             hr(),
                             h3("Holidays"),
                             textOutput("holidays_out"),
@@ -51,6 +52,18 @@ server = function(input, output){
   output$holidays_out = renderText({
     paste(as.character(holidays()))
   })
+  
+  namedays_data = read.csv("namedays.csv", header = TRUE, sep = ";")
+  
+  namedays = function(picked_date){
+    nameday_date = format(input$picked_date, "%m-%d")
+    nameday = namedays_data$nameday[namedays_data$day == nameday_date]
+  }
+  
+  output$namedays_out = renderText({
+    paste(as.character(namedays()))
+  })
+  
 }
 
 shinyApp(ui = ui, server = server)
