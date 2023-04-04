@@ -2,11 +2,15 @@ install.packages("shiny")
 install.packages("shinythemes")
 install.packages("lubridate")
 install.packages("scales")
+install.packages("rjson")
 
 library(shiny)
 library(shinythemes)
 library(lubridate)
 library(scales)
+library(rjson)
+
+Sys.setlocale("LC_TIME", 'en')
 
 # ui - funkcja pakietu shiny odpowiadająca za wygląd aplikacji, interfejs użytkownika
 
@@ -22,13 +26,16 @@ ui = fluidPage(theme = shinytheme("slate"), # użyto motywu slate z pakietu shin
                                       weekstart = 1,
                                       language = "en",
                                       min = "1970-01-01",
-                                      max = "2023-12-31")
+                                      max = "2023-12-31"),
+                            hr(),
+                            h3("Weather"),
+                            tags$p("Today is ", tags$b(format(Sys.Date(), "%d %B %Y"))),
+                            tags$p(textOutput("weather_out")),
+                            tags$p(textOutput("temperature_out")),
+                            tags$p(textOutput("wind_out")),
                           ),
                           mainPanel(
                             textOutput("facts_out"), # textOutput użyto do wyświetlania wszelkich outputów z sekcji server
-                            hr(),
-                            h3("Weather"),
-                            hr(),
                             h3("Moon phase"),
                             textOutput("moon_phase_out"),
                             hr(),
@@ -48,7 +55,9 @@ ui = fluidPage(theme = shinytheme("slate"), # użyto motywu slate z pakietu shin
                             h4("Horoscope"),
                             textOutput("horoscope_out"),
                             hr(),
-                            h3("Happy birthday to:"),
+                            h3("Born this day in history:"),
+                            textOutput("birthdays_out"),
+                            hr(),
                           )
                  )
                )
@@ -84,6 +93,17 @@ server = function(input, output){
   
   output$namedays_out = renderText({
     paste(as.character(namedays()))
+  })
+  
+  birthdays_data = read.csv("birthdays.csv", header = TRUE, sep = ";")
+  
+  birthdays = function(picked_date){
+    birthday_date = format(input$picked_date, "%m-%d")
+    birthday = birthdays_data$birthdays[birthdays_data$Data == birthday_date]
+  }
+  
+  output$birthdays_out = renderText({
+    paste(as.character(birthdays()))
   })
   
   observeEvent(input$picked_date, {
@@ -257,6 +277,60 @@ server = function(input, output){
   
   output$facts_out = renderText({
     paste(date_facts())
+  })
+  
+  weather = function(){
+    api_key = "70a2bd6f6a99d8e2aa165b7f181eb93f"
+    
+    city = "Poznan"
+    country = "PL"
+    
+    url = paste0("http://api.openweathermap.org/data/2.5/weather?q=", city, ",", country, "&APPID=", api_key)
+    
+    json_data = fromJSON(file = url)
+    
+    paste0("Weather in ", city, " now: ", json_data$weather[[1]]$description)
+    
+  }
+  
+  output$weather_out = renderText({
+    paste(as.character(weather()))
+  })
+  
+  temperature = function(){
+    api_key = "70a2bd6f6a99d8e2aa165b7f181eb93f"
+    
+    city = "Poznan"
+    country = "PL"
+    
+    url = paste0("http://api.openweathermap.org/data/2.5/weather?q=", city, ",", country, "&APPID=", api_key)
+    
+    json_data = fromJSON(file = url)
+    
+    paste0("Temperature: ", round(json_data$main$temp - 273.15, 2), " degrees Celsius")
+    
+  }
+  
+  output$temperature_out = renderText({
+    paste(as.character(temperature()))
+  })
+  
+  wind = function(){
+    api_key = "70a2bd6f6a99d8e2aa165b7f181eb93f"
+    
+    city = "Poznan"
+    country = "PL"
+    
+    url = paste0("http://api.openweathermap.org/data/2.5/weather?q=", city, ",", country, "&APPID=", api_key)
+    
+    json_data = fromJSON(file = url)
+    
+    paste0("Wind speed: ", json_data$wind$speed, " m/s")
+    
+  }
+  
+  output$wind_out = renderText({
+    paste(as.character(wind()))
   })
   
 }
