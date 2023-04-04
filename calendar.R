@@ -36,6 +36,7 @@ ui = fluidPage(theme = shinytheme("slate"), # użyto motywu slate z pakietu shin
                           ),
                           mainPanel(
                             textOutput("facts_out"), # textOutput użyto do wyświetlania wszelkich outputów z sekcji server
+                            hr(),
                             h3("Moon phase"),
                             textOutput("moon_phase_out"),
                             hr(),
@@ -146,6 +147,8 @@ server = function(input, output){
     } else if (days_into_cycle <= 23.9936) {
       moon_phase = "Third Quarter"
     } else if (days_into_cycle <= 27.68493) {
+      moon_phase = "Waning Crescent"
+    } else {
       moon_phase = "Waning Crescent"
     }
     
