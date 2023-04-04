@@ -1,14 +1,16 @@
 install.packages("shiny")
 install.packages("shinythemes")
 install.packages("lubridate")
+install.packages("scales")
 
 library(shiny)
 library(shinythemes)
 library(lubridate)
+library(scales)
 
 ui = fluidPage(theme = shinytheme("slate"),
                navbarPage(
-                 "Calendar",
+                 "Calendar.R",
                  tabPanel("Calendar",
                           sidebarPanel(
                             tags$h3("Pick a date:"),
@@ -21,6 +23,8 @@ ui = fluidPage(theme = shinytheme("slate"),
                                       max = "2023-12-31")
                           ),
                           mainPanel(
+                            textOutput("facts_out"),
+                            hr(),
                             h3("Weather"),
                             hr(),
                             h3("Happy name day to:"),
@@ -35,6 +39,7 @@ ui = fluidPage(theme = shinytheme("slate"),
                             h3("Zodiac signs"),
                             tags$div(
                               tags$p(tags$b("Sun sign")),
+                              tags$p(textOutput("sun_out")),
                               tags$p(tags$b("Moon sign")),
                               tags$p(textOutput("moon_out"))
                             ),
@@ -169,12 +174,11 @@ server = function(input, output){
     if (is.na(moon_sign)) {
       moon_sign = "Pisces"
     }
-    paste("Moon sign for the date", input$picked_date, "is", moon_sign)
+    paste(moon_sign)
   })
   
   output$horoscope_out = renderText({
-    paste("Horoscope for the date", input$picked_date, "is:", 
-          switch(moon_signs(),
+    paste(switch(moon_signs(),
                  "Aries" = "This is a time to focus on your goals and take action towards them. Trust your instincts and be confident in your abilities. Your energy and determination will help you achieve success.",
                  "Taurus" = "It's important to find balance in all areas of your life. Focus on taking care of yourself and your relationships, both personal and professional. Your patience and persistence will pay off in the long run.",
                  "Gemini" = "You may find yourself feeling more curious and communicative than usual. This is a good time to learn new things and connect with others. Be open to new experiences and ideas.",
@@ -188,6 +192,57 @@ server = function(input, output){
                  "Aquarius" = "You may find yourself feeling more innovative and unconventional than usual. Embrace your unique perspective and use it to solve problems and create new opportunities. Your vision and creativity will help you succeed.",
                  "This is a time to focus on your intuition and spiritual growth. Connect with your inner self and explore your dreams and visions. Your sensitivity and empathy will help you connect with others on a deeper level.")
     )
+  })
+  
+  sun_sign = function(picked_date){
+    bday = input$picked_date
+    
+    day_of_the_month = day(bday)
+    month = month(bday)
+    
+    if ((day_of_the_month >= 22 && month == 12) || (day_of_the_month <= 19 && month == 01)){
+      ("Capricorn")
+    } else if ((day_of_the_month >= 20 && month == 01) || (day_of_the_month <= 18 && month == 02)){
+      ("Aquarius")
+    } else if ((day_of_the_month >= 19 && month == 02) || (day_of_the_month <= 20 && month == 03)){
+      ("Pisces")
+    } else if ((day_of_the_month >= 21 && month == 03) || (day_of_the_month <= 19 && month == 04)){
+      ("Aries")
+    } else if ((day_of_the_month >= 20 && month == 04) || (day_of_the_month <= 22 && month == 05)){
+      ("Taurus")
+    } else if ((day_of_the_month >= 23 && month == 05) || (day_of_the_month <= 21 && month == 06)){
+      ("Gemini")
+    } else if ((day_of_the_month >= 22 && month == 06) || (day_of_the_month <= 22 && month == 07)){
+      ("Cancer")
+    } else if ((day_of_the_month >= 23 && month == 07) || (day_of_the_month <= 23 && month == 08)){
+      ("Leo")
+    } else if ((day_of_the_month >= 24 && month == 08) || (day_of_the_month <= 22 && month == 09)){
+      ("Virgo")
+    } else if ((day_of_the_month >= 23 && month == 09) || (day_of_the_month <= 22 && month == 10)){
+      ("Libra")
+    } else if ((day_of_the_month >= 23 && month == 10) || (day_of_the_month <= 21 && month == 11)){
+      ("Scorpio")
+    } else if ((day_of_the_month >= 22 && month == 11) || (day_of_the_month <= 21 && month == 12)){
+      ("Sagittarius")
+    }
+  }
+  
+  output$sun_out = renderText({
+    paste(sun_sign())
+  })
+  
+  date_facts = function(picked_date){
+    day_of_the_year = ordinal(as.numeric(format(input$picked_date, "%j")))
+    weekday = format(input$picked_date, "%A")
+    week = ordinal(as.numeric(format(input$picked_date, "%W")))
+    picked_date_formatted = format(input$picked_date, "%d %B %Y")
+    
+    paste0(weekday, ", ", picked_date_formatted, " is the ", day_of_the_year, " day of the year, in its ",
+           week, " week.")
+  }
+  
+  output$facts_out = renderText({
+    paste(date_facts())
   })
   
 }
