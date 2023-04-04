@@ -169,12 +169,11 @@ server = function(input, output){
     if (is.na(moon_sign)) {
       moon_sign = "Pisces"
     }
-    paste("Moon sign for the date", input$picked_date, "is", moon_sign)
+    paste(moon_sign)
   })
   
   output$horoscope_out = renderText({
-    paste("Horoscope for the date", input$picked_date, "is:", 
-          switch(moon_signs(),
+    paste(switch(moon_signs(),
                  "Aries" = "This is a time to focus on your goals and take action towards them. Trust your instincts and be confident in your abilities. Your energy and determination will help you achieve success.",
                  "Taurus" = "It's important to find balance in all areas of your life. Focus on taking care of yourself and your relationships, both personal and professional. Your patience and persistence will pay off in the long run.",
                  "Gemini" = "You may find yourself feeling more curious and communicative than usual. This is a good time to learn new things and connect with others. Be open to new experiences and ideas.",
