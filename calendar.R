@@ -8,7 +8,9 @@ library(shinythemes)
 library(lubridate)
 library(scales)
 
-ui = fluidPage(theme = shinytheme("slate"),
+# ui - funkcja pakietu shiny odpowiadająca za wygląd aplikacji, interfejs użytkownika
+
+ui = fluidPage(theme = shinytheme("slate"), # użyto motywu slate z pakietu shinythemes
                navbarPage(
                  "Calendar.R",
                  tabPanel("Calendar",
@@ -23,7 +25,7 @@ ui = fluidPage(theme = shinytheme("slate"),
                                       max = "2023-12-31")
                           ),
                           mainPanel(
-                            textOutput("facts_out"),
+                            textOutput("facts_out"), # textOutput użyto do wyświetlania wszelkich outputów z sekcji server
                             hr(),
                             h3("Weather"),
                             hr(),
@@ -52,14 +54,22 @@ ui = fluidPage(theme = shinytheme("slate"),
                )
 )
 
+# server - w pakiecie shiny tam gromadzi się funkcje, które mają być następnie wyświetlane w ui
+# input - wartości wprowadzone przez użytkownika, w tym przypadku data (input$picked_date)
+# output - zwracanie funkcji do ui
+
 server = function(input, output){
   
-  holidays_data = read.csv("holidays.csv", header = TRUE, sep = ";")
+  # odczytanie świąt z pliku csv
+  
+  holidays_data = read.csv("holidays.csv", header = TRUE, sep = ";") 
   
   holidays = function(picked_date){
-    holiday_date = format(input$picked_date, "%m-%d")
-    holiday = holidays_data$holiday[holidays_data$day == holiday_date]
+    holiday_date = format(input$picked_date, "%m-%d") # sformatowanie wybranej daty do formatu miesiąc-dzień
+    holiday = holidays_data$holiday[holidays_data$day == holiday_date] # wydzielenie z pliku csv świąt odpowiadających wybranej dacie
   }
+  
+  # funkcje output odpowiadają za wykonanie i przekazanie funkcji do ui
   
   output$holidays_out = renderText({
     paste(as.character(holidays()))
@@ -194,11 +204,13 @@ server = function(input, output){
     )
   })
   
+  # słoneczny znak zodiaku
+  
   sun_sign = function(picked_date){
     bday = input$picked_date
     
-    day_of_the_month = day(bday)
-    month = month(bday)
+    day_of_the_month = day(bday) # wydzielenie dnia miesiąca z daty
+    month = month(bday) # wydzielenie miesiąca z daty
     
     if ((day_of_the_month >= 22 && month == 12) || (day_of_the_month <= 19 && month == 01)){
       ("Capricorn")
@@ -231,11 +243,13 @@ server = function(input, output){
     paste(sun_sign())
   })
   
+  # funkcja pokazująca którym dniem roku jest wybrana data i w którym tygodniu roku się znajduje
+  
   date_facts = function(picked_date){
-    day_of_the_year = ordinal(as.numeric(format(input$picked_date, "%j")))
-    weekday = format(input$picked_date, "%A")
-    week = ordinal(as.numeric(format(input$picked_date, "%W")))
-    picked_date_formatted = format(input$picked_date, "%d %B %Y")
+    day_of_the_year = ordinal(as.numeric(format(input$picked_date, "%j"))) # dzień roku, funkcja ordinal z pakietu scales odpowiada za dodanie końcówek angielskich liczebników - do jej działania wartość musi być atrybutem numerycznym
+    weekday = format(input$picked_date, "%A") # dzień tygodnia
+    week = ordinal(as.numeric(format(input$picked_date, "%W"))) # tydzień roku z końcówkami liczebników
+    picked_date_formatted = format(input$picked_date, "%d %B %Y") # sformatowana wybrana data z pełną nazwą miesiąca
     
     paste0(weekday, ", ", picked_date_formatted, " is the ", day_of_the_year, " day of the year, in its ",
            week, " week.")
@@ -246,5 +260,7 @@ server = function(input, output){
   })
   
 }
+
+# shinyApp otwiera aplikację
 
 shinyApp(ui = ui, server = server)
