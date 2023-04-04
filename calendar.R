@@ -29,6 +29,9 @@ ui = fluidPage(theme = shinytheme("slate"),
                             h3("Holidays"),
                             textOutput("holidays_out"),
                             hr(),
+                            h3("Moon phase"),
+                            textOutput("moon_phase_out"),
+                            hr(),
                             h3("Zodiac signs"),
                             tags$div(
                               tags$p(tags$b("Sun sign")),
@@ -67,6 +70,55 @@ server = function(input, output){
   output$namedays_out = renderText({
     paste(as.character(namedays()))
   })
+  
+  observeEvent(input$picked_date, {
+    year = year(input$picked_date)
+    month = month(input$picked_date)
+    day = day(input$picked_date)
+    
+    if (month == 1 | month == 2) {
+      year = year - 1
+      month = month + 12
+    }
+    
+    A = year %/% 100
+    B = A %/% 4
+    C = 2 - A + B
+    E = round(365.25 * (year + 4716), 0)
+    F = round(30.6001 * (month + 1), 0)
+    
+    JulianDay = C + day + E + F - 1524.5
+    
+    days_since_new_moon = JulianDay - 2451549.5
+    
+    new_moons = days_since_new_moon / 29.53
+    fractional_part = new_moons - floor(new_moons)
+    
+    days_into_cycle = fractional_part * 29.53
+    
+    if (days_into_cycle <= 1.84566 | days_into_cycle > 28.1783) {
+      moon_phase = "New Moon"
+    } else if (days_into_cycle <= 5.53699) {
+      moon_phase = "Waxing Crescent"
+    } else if (days_into_cycle <= 9.22831) {
+      moon_phase = "First Quarter"
+    } else if (days_into_cycle <= 12.91963) {
+      moon_phase = "Waxing Gibbous"
+    } else if (days_into_cycle <= 16.61096) {
+      moon_phase = "Full Moon"
+    } else if (days_into_cycle <= 20.30228) {
+      moon_phase = "Waning Gibbous"
+    } else if (days_into_cycle <= 23.9936) {
+      moon_phase = "Third Quarter"
+    } else if (days_into_cycle <= 27.68493) {
+      moon_phase = "Waning Crescent"
+    }
+    
+    output$moon_phase_out = renderText({
+      paste(as.character(moon_phase))
+    })
+  })
+  
   
   
   moon_signs = function(picked_date){
@@ -120,7 +172,7 @@ server = function(input, output){
     paste("Moon sign for the date", input$picked_date, "is", moon_sign)
   })
   
-  output$horoscope_out <- renderText({
+  output$horoscope_out = renderText({
     paste("Horoscope for the date", input$picked_date, "is:", 
           switch(moon_signs(),
                  "Aries" = "This is a time to focus on your goals and take action towards them. Trust your instincts and be confident in your abilities. Your energy and determination will help you achieve success.",
