@@ -1,8 +1,16 @@
+# Poniżej znajdują się pakiety wymagane do działania aplikacji.
+# By je zainstalować, należy użyć skrótu klawiszowego Ctrl+Enter w każdej linijce z komendą install.packages.
+# Instalację wystarczy wykonać tylko raz, przy pierwszym użyciu.
+
 install.packages("shiny")
 install.packages("shinythemes")
 install.packages("lubridate")
 install.packages("scales")
 install.packages("rjson")
+
+# Następujące komendy odpowiadają za załadowanie pakietów.
+# By je załadować, należy ponownie użyć skrótu klawiszowego Ctrl+Enter w liniach z komendą library.
+# Ładowanie pakietów należy wykonać na początku każdej sesji.
 
 library(shiny)
 library(shinythemes)
@@ -40,7 +48,7 @@ ui = fluidPage(theme = shinytheme("slate"), # użyto motywu slate z pakietu shin
                             h3("Moon phase"),
                             textOutput("moon_phase_out"),
                             hr(),
-                            h3("Happy name day to:"),
+                            h3("Happy name day to"),
                             textOutput("namedays_out"),
                             hr(),
                             h3("Holidays"),
@@ -56,7 +64,7 @@ ui = fluidPage(theme = shinytheme("slate"), # użyto motywu slate z pakietu shin
                             h4("Horoscope"),
                             textOutput("horoscope_out"),
                             hr(),
-                            h3("Born this day in history:"),
+                            h3("Born this day in history"),
                             textOutput("birthdays_out"),
                             hr(),
                           )
@@ -72,7 +80,7 @@ server = function(input, output){
   
   # odczytanie świąt z pliku csv
   
-  holidays_data = read.csv("holidays.csv", header = TRUE, sep = ";") 
+  holidays_data = read.csv("data/holidays.csv", header = TRUE, sep = ";") 
   
   holidays = function(picked_date){
     holiday_date = format(input$picked_date, "%m-%d") # sformatowanie wybranej daty do formatu miesiąc-dzień
@@ -85,7 +93,7 @@ server = function(input, output){
     paste(as.character(holidays()))
   })
   
-  namedays_data = read.csv("namedays.csv", header = TRUE, sep = ";")
+  namedays_data = read.csv("data/namedays.csv", header = TRUE, sep = ";")
   
   namedays = function(picked_date){
     nameday_date = format(input$picked_date, "%m-%d")
@@ -96,7 +104,7 @@ server = function(input, output){
     paste(as.character(namedays()))
   })
   
-  birthdays_data = read.csv("birthdays.csv", header = TRUE, sep = ";")
+  birthdays_data = read.csv("data/birthdays.csv", header = TRUE, sep = ";")
   
   birthdays = function(picked_date){
     birthday_date = format(input$picked_date, "%m-%d")
