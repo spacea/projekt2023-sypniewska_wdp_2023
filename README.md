@@ -5,7 +5,7 @@ Aplikacja Calendar.R powie Ci wszystko, co musisz wiedzieć o danej dacie. Wysta
 ## Wymagania
 
 - zainstalowana [aktualna wersja R](https://cran.rstudio.com/)
-- zainstalowana aktualna wersja dowolnego zintegrowanego środowiska programistycznego R, np. [RStudio](https://posit.co/download/rstudio-desktop/)
+- zainstalowana aktualna wersja dowolnego zintegrowanego środowiska programistycznego (IDE) przeznaczonego do pracy z R, np. [RStudio](https://posit.co/download/rstudio-desktop/)
 - znajomość języka angielskiego
 
 ## Instalacja
