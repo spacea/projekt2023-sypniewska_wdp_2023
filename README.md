@@ -8,12 +8,26 @@ Aplikacja Calendar.R powie Ci wszystko, co musisz wiedzieć o danej dacie. Wysta
 - zainstalowana aktualna wersja dowolnego zintegrowanego środowiska programistycznego R, np. [RStudio](https://posit.co/download/rstudio-desktop/)
 - znajomość języka angielskiego
 
-## Instrukcja obsługi
+## Instalacja
+Poniższy kod zawiera pakiety wymagane do działania aplikacji. Należy go wkleić do wybranego IDE przeznazonego do pracy z R, np. RStudio, a następnie wykonać przy pomocy skrótu klawiszowego **Ctrl+Enter**.
+```
+install.packages(c("shiny", "shinythemes", "lubridate", "scales", "rjson"))
+```
 
+## Użycie
+### Bez pobierania repozytorium
+1. Poniższy kod należy wkleić do wybranego IDE przeznaczonego do pracy z R, a następnie wykonać każdą kolejną linijkę przy pomocy skrótu klawiszowego **Ctrl+Enter**. Ostatnia linijka otworzy aplikację.
+```
+library(shiny)
+runGitHub("projekt2023-sypniewska_wdp_2023", "spacea")
+```
+2. Z panelu bocznego wybrać datę.
+
+### Z pobranym repozytorium
 1. Pobrać wszystkie pliki z repozytorium do jednego folderu.
-2. Otworzyć plik calendar.R w wybranym zintegrowanym środowisku programistycznym przeznaczonym do pracy z R, np. RStudio.
-3. Zainstalować i wczytać wszystkie pakiety zawarte na górze skryptu za pomocą Ctrl+Enter.
-4. Używając tej samej kombinacji klawiszy wykonać wszystkie kolejne funkcje. Ostatnia - shinyApp - otworzy aplikację.
+2. Otworzyć plik **app.R** w wybranym zintegrowanym środowisku programistycznym przeznaczonym do pracy z R, np. RStudio.
+3. Wczytać wszystkie pakiety zawarte na górze skryptu za pomocą **Ctrl+Enter** (komendy *library*).
+4. Używając tej samej kombinacji klawiszy wykonać wszystkie kolejne funkcje. Ostatnia - *shinyApp* - otworzy aplikację.
 5. Z panelu bocznego wybrać datę.
 
 ## Źródła
