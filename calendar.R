@@ -2,11 +2,11 @@
 # By je zainstalować, należy użyć skrótu klawiszowego Ctrl+Enter w każdej linijce z komendą install.packages.
 # Instalację wystarczy wykonać tylko raz, przy pierwszym użyciu.
 
-install.packages("shiny")
-install.packages("shinythemes")
-install.packages("lubridate")
-install.packages("scales")
-install.packages("rjson")
+#install.packages("shiny")
+#install.packages("shinythemes")
+#install.packages("lubridate")
+#install.packages("scales")
+#install.packages("rjson")
 
 # Następujące komendy odpowiadają za załadowanie pakietów.
 # By je załadować, należy ponownie użyć skrótu klawiszowego Ctrl+Enter w liniach z komendą library.
@@ -141,23 +141,23 @@ server = function(input, output){
     days_into_cycle = fractional_part * 29.53
     
     if (days_into_cycle <= 1.84566 | days_into_cycle > 28.1783) {
-      moon_phase = "New Moon"
+      moon_phase = "New Moon 🌑"
     } else if (days_into_cycle <= 5.53699) {
-      moon_phase = "Waxing Crescent"
+      moon_phase = "Waxing Crescent 🌒"
     } else if (days_into_cycle <= 9.22831) {
-      moon_phase = "First Quarter"
+      moon_phase = "First Quarter 🌓"
     } else if (days_into_cycle <= 12.91963) {
-      moon_phase = "Waxing Gibbous"
+      moon_phase = "Waxing Gibbous 🌔"
     } else if (days_into_cycle <= 16.61096) {
-      moon_phase = "Full Moon"
+      moon_phase = "Full Moon 🌕"
     } else if (days_into_cycle <= 20.30228) {
-      moon_phase = "Waning Gibbous"
+      moon_phase = "Waning Gibbous 🌖"
     } else if (days_into_cycle <= 23.9936) {
-      moon_phase = "Third Quarter"
+      moon_phase = "Third Quarter 🌗"
     } else if (days_into_cycle <= 27.68493) {
-      moon_phase = "Waning Crescent"
+      moon_phase = "Waning Crescent 🌘"
     } else {
-      moon_phase = "Waning Crescent"
+      moon_phase = "Waning Crescent 🌘"
     }
     
     output$moon_phase_out = renderText({
