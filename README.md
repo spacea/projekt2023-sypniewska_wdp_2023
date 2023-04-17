@@ -13,6 +13,7 @@ Poniższy kod zawiera pakiety wymagane do działania aplikacji. Należy go wklei
 ```
 install.packages(c("shiny", "shinythemes", "lubridate", "scales", "rjson"))
 ```
+Instalację pakietów wystarczy wykonać tylko raz, przed pierwszym użyciem aplikacji.
 
 ## Użycie
 ### Bez pobierania repozytorium
