@@ -202,7 +202,7 @@ server = function(input, output){
                                                                                                                                pi/180) - 0.11 * sin((186.6 + 966404.05 * JulianCenturies) * pi/180), 360)
       
       zodiac = floor((lunarLongitude + 15) / 30) + 1
-      zodiacNames = c("Pisces", "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius")
+      zodiacNames = c("Pisces ♓", "Aries ♈", "Taurus ♉", "Gemini ♊", "Cancer ♋", "Leo ♌", "Virgo ♍", "Libra ♎", "Scorpio ♏", "Sagittarius ♐", "Capricorn ♑", "Aquarius ♒")
       return(zodiacNames[zodiac])
     }
     
@@ -213,24 +213,24 @@ server = function(input, output){
   output$moon_out = renderText({
     moon_sign = moon_signs()
     if (is.na(moon_sign)) {
-      moon_sign = "Pisces"
+      moon_sign = "Pisces ♓"
     }
     paste(moon_sign)
   })
   
   output$horoscope_out = renderText({
     paste(switch(moon_signs(),
-                 "Aries" = "This is a time to focus on your goals and take action towards them. Trust your instincts and be confident in your abilities. Your energy and determination will help you achieve success.",
-                 "Taurus" = "It's important to find balance in all areas of your life. Focus on taking care of yourself and your relationships, both personal and professional. Your patience and persistence will pay off in the long run.",
-                 "Gemini" = "You may find yourself feeling more curious and communicative than usual. This is a good time to learn new things and connect with others. Be open to new experiences and ideas.",
-                 "Cancer" = "You may be feeling more emotional than usual. It's important to take care of yourself and prioritize your own needs. Trust your intuition and listen to your inner voice.",
-                 "Leo" = "This is a time to focus on your creativity and self-expression. Embrace your individuality and let your light shine. Your confidence and charisma will attract positive attention.",
-                 "Virgo" = "It's important to focus on the details and take a practical approach to your goals. Pay attention to your health and well-being, and be sure to get enough rest and relaxation.",
-                 "Libra" = "This is a time to focus on your relationships and partnerships. Seek balance and harmony in your interactions with others. Your diplomacy and charm will serve you well.",
-                 "Scorpio" = "You may find yourself feeling more intense and passionate than usual. Embrace your power and use it wisely. Your intuition and ability to transform will help you achieve your goals.",
-                 "Sagittarius" = "This is a time to focus on your sense of adventure and explore new horizons. Take risks and embrace new experiences. Your optimism and enthusiasm will help you find success.",
-                 "Capricorn" = "It's important to focus on your goals and take a practical approach to achieving them. Be disciplined and persistent in your efforts. Your hard work will pay off in the long run.",
-                 "Aquarius" = "You may find yourself feeling more innovative and unconventional than usual. Embrace your unique perspective and use it to solve problems and create new opportunities. Your vision and creativity will help you succeed.",
+                 "Aries ♈" = "This is a time to focus on your goals and take action towards them. Trust your instincts and be confident in your abilities. Your energy and determination will help you achieve success.",
+                 "Taurus ♉" = "It's important to find balance in all areas of your life. Focus on taking care of yourself and your relationships, both personal and professional. Your patience and persistence will pay off in the long run.",
+                 "Gemini ♊" = "You may find yourself feeling more curious and communicative than usual. This is a good time to learn new things and connect with others. Be open to new experiences and ideas.",
+                 "Cancer ♋" = "You may be feeling more emotional than usual. It's important to take care of yourself and prioritize your own needs. Trust your intuition and listen to your inner voice.",
+                 "Leo ♌" = "This is a time to focus on your creativity and self-expression. Embrace your individuality and let your light shine. Your confidence and charisma will attract positive attention.",
+                 "Virgo ♍" = "It's important to focus on the details and take a practical approach to your goals. Pay attention to your health and well-being, and be sure to get enough rest and relaxation.",
+                 "Libra ♎" = "This is a time to focus on your relationships and partnerships. Seek balance and harmony in your interactions with others. Your diplomacy and charm will serve you well.",
+                 "Scorpio ♏" = "You may find yourself feeling more intense and passionate than usual. Embrace your power and use it wisely. Your intuition and ability to transform will help you achieve your goals.",
+                 "Sagittarius ♐" = "This is a time to focus on your sense of adventure and explore new horizons. Take risks and embrace new experiences. Your optimism and enthusiasm will help you find success.",
+                 "Capricorn ♑" = "It's important to focus on your goals and take a practical approach to achieving them. Be disciplined and persistent in your efforts. Your hard work will pay off in the long run.",
+                 "Aquarius ♒" = "You may find yourself feeling more innovative and unconventional than usual. Embrace your unique perspective and use it to solve problems and create new opportunities. Your vision and creativity will help you succeed.",
                  "This is a time to focus on your intuition and spiritual growth. Connect with your inner self and explore your dreams and visions. Your sensitivity and empathy will help you connect with others on a deeper level.")
     )
   })
@@ -244,29 +244,29 @@ server = function(input, output){
     month = month(bday) # wydzielenie miesiąca z daty
     
     if ((day_of_the_month >= 22 && month == 12) || (day_of_the_month <= 19 && month == 01)){
-      ("Capricorn")
+      ("Capricorn ♑")
     } else if ((day_of_the_month >= 20 && month == 01) || (day_of_the_month <= 18 && month == 02)){
-      ("Aquarius")
+      ("Aquarius ♒")
     } else if ((day_of_the_month >= 19 && month == 02) || (day_of_the_month <= 20 && month == 03)){
-      ("Pisces")
+      ("Pisces ♓")
     } else if ((day_of_the_month >= 21 && month == 03) || (day_of_the_month <= 19 && month == 04)){
-      ("Aries")
+      ("Aries ♈")
     } else if ((day_of_the_month >= 20 && month == 04) || (day_of_the_month <= 22 && month == 05)){
-      ("Taurus")
+      ("Taurus ♉")
     } else if ((day_of_the_month >= 23 && month == 05) || (day_of_the_month <= 21 && month == 06)){
-      ("Gemini")
+      ("Gemini ♊")
     } else if ((day_of_the_month >= 22 && month == 06) || (day_of_the_month <= 22 && month == 07)){
-      ("Cancer")
+      ("Cancer ♋")
     } else if ((day_of_the_month >= 23 && month == 07) || (day_of_the_month <= 23 && month == 08)){
-      ("Leo")
+      ("Leo ♌")
     } else if ((day_of_the_month >= 24 && month == 08) || (day_of_the_month <= 22 && month == 09)){
-      ("Virgo")
+      ("Virgo ♍")
     } else if ((day_of_the_month >= 23 && month == 09) || (day_of_the_month <= 22 && month == 10)){
-      ("Libra")
+      ("Libra ♎")
     } else if ((day_of_the_month >= 23 && month == 10) || (day_of_the_month <= 21 && month == 11)){
-      ("Scorpio")
+      ("Scorpio ♏")
     } else if ((day_of_the_month >= 22 && month == 11) || (day_of_the_month <= 21 && month == 12)){
-      ("Sagittarius")
+      ("Sagittarius ♐")
     }
   }
   
